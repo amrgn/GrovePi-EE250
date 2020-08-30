@@ -31,7 +31,7 @@ is, if you run `python3 grovepi_sensors.py` in terminal, this if-statement will
 be true"""
 if __name__ == '__main__':
     PORT = 4    # D4
-	potentiometer = 1
+    potentiometer = 1
 	grovepi.pinMode(potentiometer,"INPUT")
 
     while True:
