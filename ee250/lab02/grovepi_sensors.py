@@ -43,7 +43,7 @@ if __name__ == '__main__':
 		#sleep for a reasonable time of 200ms between each iteration.
 		time.sleep(0.2)
 		rot = grovepi.analogRead(potentiometer)
-		dist = grovepi.analogRead(ultrasonic)
+		dist = grovepi.ultrasonicRead(ultrasonic)
 		if last_dist != dist or last_rot != rot:
 			last_dist = dist
 			last_rot = rot
