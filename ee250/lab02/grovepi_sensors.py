@@ -30,14 +30,14 @@ import grovepi
 is, if you run `python3 grovepi_sensors.py` in terminal, this if-statement will 
 be true"""
 if __name__ == '__main__':
-    PORT = 4    # D4
-    potentiometer = 1
+	PORT = 4    # D4
+	potentiometer = 1
 	grovepi.pinMode(potentiometer,"INPUT")
 
-    while True:
-        #So we do not poll the sensors too quickly which may introduce noise,
-        #sleep for a reasonable time of 200ms between each iteration.
-        time.sleep(0.2)
-        sensor_value = grovepi.analogRead(potentiometer)
+	while True:
+		#So we do not poll the sensors too quickly which may introduce noise,
+		#sleep for a reasonable time of 200ms between each iteration.
+		time.sleep(0.2)
+		sensor_value = grovepi.analogRead(potentiometer)
 
-        print(sensor_value)
+		print(sensor_value)
