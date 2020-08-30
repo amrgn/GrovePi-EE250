@@ -52,4 +52,5 @@ if __name__ == '__main__':
 			if dist < rot:
 				printmsg += " OBJ PRES"
 			printmsg += "\n" + str(dist) + "cm"
+			grove_rgb_lcd.setText_norefresh("")
 			grove_rgb_lcd.setText_norefresh(printmsg)
