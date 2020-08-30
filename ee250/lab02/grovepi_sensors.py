@@ -1,8 +1,10 @@
 """ EE 250L Lab 02: GrovePi Sensors
 
 List team members here.
+Alexander Morgan
 
 Insert Github repository link here.
+https://github.com/amrgn/GrovePi-EE250
 """
 
 """python3 interpreters in Ubuntu (and other linux distros) will look in a 
@@ -29,10 +31,13 @@ is, if you run `python3 grovepi_sensors.py` in terminal, this if-statement will
 be true"""
 if __name__ == '__main__':
     PORT = 4    # D4
+	potentiometer = 1
+	grovepi.pinMode(potentiometer,"INPUT")
 
     while True:
         #So we do not poll the sensors too quickly which may introduce noise,
         #sleep for a reasonable time of 200ms between each iteration.
         time.sleep(0.2)
+        sensor_value = grovepi.analogRead(potentiometer)
 
-        print(grovepi.ultrasonicRead(PORT))
+        print(sensor_value)
