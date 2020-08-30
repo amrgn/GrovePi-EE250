@@ -48,9 +48,18 @@ if __name__ == '__main__':
 			last_dist = dist
 			last_rot = rot
 			#update LCD
-			printmsg = str(rot)+"cm"
+			append_space = 4 - len(str(rot))
+			printmsg = ""
+			for i in range(append_space):
+				printmsg += " "
+			printmsg += str(rot)+"cm"
 			if dist < rot:
 				printmsg += " OBJ PRES"
-			printmsg += "\n" + str(dist) + "cm"
-			grove_rgb_lcd.setText_norefresh("")
+			else:
+				printmsg += "         "
+			printmsg += "\n"
+			append_space = 4 - len(str(dist))
+			for i in range(append_space):
+				printmsg += " "
+			printmsg += str(dist) + "cm"
 			grove_rgb_lcd.setText_norefresh(printmsg)
