@@ -45,6 +45,8 @@ if __name__ == '__main__':
 		rot = grovepi.analogRead(potentiometer)
 		dist = grovepi.analogRead(ultrasonic)
 		if last_dist != dist or last_rot != rot:
+			last_dist = dist
+			last_rot = rot
 			#update LCD
 			printmsg = str(rot)+"cm"
 			if dist < rot:
