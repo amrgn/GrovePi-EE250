@@ -20,16 +20,16 @@ int main(int argc, char const *argv[])
 	
 	// TODO: Fill out the server ip and port
 	std::string server_ip = "34.209.114.30";
-	std::string server_port = "5007";
+	std::string server_port = "5000";
 
 	int opt = 1;
 	int client_fd = -1;
 
 	// TODO: Create a TCP socket()
-	int file_descriptor = socket(AF_INET, SOCK_STREAM, DEFAULT_PROTOCOL);
+	client_fd = socket(AF_INET, SOCK_STREAM, DEFAULT_PROTOCOL);
 
-	if(file_descriptor == -1){
-		cout<<"Error creating socket, exiting..."<<endl;
+	if(client_fd == -1){
+		std::cout<<"Error creating socket, exiting..."<<std::endl;
 		return -1;
 	}
 	// Enable reusing address and port
@@ -42,7 +42,7 @@ int main(int argc, char const *argv[])
 		printf("Error- Socket setup failed");
 		return -1;
 	}
-	
+
 	// Helping you out by pepping the struct for connecting to the aws server
 	struct addrinfo hints;
 	struct addrinfo *server_addr;
@@ -52,28 +52,36 @@ int main(int argc, char const *argv[])
 	getaddrinfo(server_ip.c_str(), server_port.c_str(), &hints, &server_addr);
 
 	// TODO: Connect() to the aws server (hint: you'll need to use server_addr)
-	if(connect(file_descriptor, server_addr, sizeof(server_addr))){
-		cout<<"Error connection to server, exiting..."<<endl;
+	if(connect(client_fd, (struct sockaddr*) server_addr, sizeof(server_addr))){
+		std::cout<<"Error connection to server, exiting..."<<std::endl;
 		return -1;
 	}
 	// TODO: Retreive user input
-	cout<<"Enter msg to send to server:"<<endl;
+	std::cout<<"Enter msg to send to server:"<<std::endl;
+	std::string userinput;
 	char buf[BUF_SZ]; 
-	cin>>buf;
+	std::cin>>userinput;
+	std::strncpy(buf,userinput.c_str(),BUF_SZ);
 
 
 	// TODO: Send() the user input to the aws server
-	if(send(file_descriptor, buf, 0)){ // no flags
-		cout<<"Error sending msg, exiting..."<<endl;
+	if(send(client_fd, buf, (userinput.length() + 1),MSG_NOSIGNAL)){ // no flags, len is correct for number of bytes sent
+		std::cout<<"Error sending msg."<<std::endl;
 	}
+
 	// TODO: Recieve any messages from the aws server and print it here. Don't forget to make sure the string is null terminated!
-	int len = recv(client_fd, socket_read_buffer, sizeof(socket_read_buffer), 0);
+	int len = recv(client_fd, socket_read_buffer, sizeof(socket_read_buffer),0);
+	if(len < 0){
+		std::cout<<"Error, received message invalid."<<std::endl;
+		return 0;
+	}
 	socket_read_buffer[len] = '\0';
+	std::cout<<len<<std::endl;
 	printf("%s\n", socket_read_buffer);
 	
 	// TODO: Close() the socket
 
-	close(file_descriptor);
+	close(client_fd);
 
 	return 0; 
 } 
