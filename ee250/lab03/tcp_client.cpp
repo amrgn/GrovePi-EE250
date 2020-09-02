@@ -10,20 +10,28 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
+#define DEFAULT_PROTOCOL 0
+#define BUF_SZ 10 //short buffer according to TA instructions
+
 int main(int argc, char const *argv[]) 
 { 
 	// check to see if user input is valid
 	char socket_read_buffer[1024];
 	
 	// TODO: Fill out the server ip and port
-	std::string server_ip = "";
-	std::string server_port = "";
+	std::string server_ip = "34.209.114.30";
+	std::string server_port = "5007";
 
 	int opt = 1;
 	int client_fd = -1;
 
 	// TODO: Create a TCP socket()
+	int file_descriptor = socket(AF_INET, SOCK_STREAM, DEFAULT_PROTOCOL);
 
+	if(file_descriptor == -1){
+		cout<<"Error creating socket, exiting..."<<endl;
+		return -1;
+	}
 	// Enable reusing address and port
 	if (setsockopt(client_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) { 
 		return -1;
@@ -44,17 +52,28 @@ int main(int argc, char const *argv[])
 	getaddrinfo(server_ip.c_str(), server_port.c_str(), &hints, &server_addr);
 
 	// TODO: Connect() to the aws server (hint: you'll need to use server_addr)
-
+	if(connect(file_descriptor, server_addr, sizeof(server_addr))){
+		cout<<"Error connection to server, exiting..."<<endl;
+		return -1;
+	}
 	// TODO: Retreive user input
+	cout<<"Enter msg to send to server:"<<endl;
+	char buf[BUF_SZ]; 
+	cin>>buf;
+
 
 	// TODO: Send() the user input to the aws server
-
+	if(send(file_descriptor, buf, 0)){ // no flags
+		cout<<"Error sending msg, exiting..."<<endl;
+	}
 	// TODO: Recieve any messages from the aws server and print it here. Don't forget to make sure the string is null terminated!
 	int len = recv(client_fd, socket_read_buffer, sizeof(socket_read_buffer), 0);
 	socket_read_buffer[len] = '\0';
 	printf("%s\n", socket_read_buffer);
 	
 	// TODO: Close() the socket
+
+	close(file_descriptor);
 
 	return 0; 
 } 
