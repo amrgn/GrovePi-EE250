@@ -9,11 +9,19 @@ import socket
 
 def main():
     
+    IP = "34.209.114.30"
+    PORT = 5001
     # TODO: Create a socket and connect it to the server at the designated IP and port
-    
+    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s.connect((IP,PORT))
     # TODO: Get user input and send it to the server using your TCP socket
-    
+    msg = input("Enter msg to send\n")
+    s.sendall(msg.encode('utf-8'))
+
     # TODO: Receive a response from the server and close the TCP connection
+    recvmsg = s.recv(1024)
+    print(recvmsg)
+    s.close()
 
 if __name__ == '__main__':
     main()
