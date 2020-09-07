@@ -1,5 +1,8 @@
 // Server side C/C++ program to demonstrate Socket programming 
 // Here's some include statements that might be helpful for you
+// Team members: Alexander Morgan
+// Github: https://github.com/amrgn/GrovePi-EE250
+
 #include <string> 
 #include <cstring>
 #include <iostream>
@@ -19,7 +22,7 @@ int main(int argc, char const *argv[])
 	char socket_read_buffer[1024];
 	
 	// TODO: Fill out the server ip and port
-	std::string server_ip = "34.209.114.30";
+	std::string server_ip = "18.225.33.131";
 	std::string server_port = "5002";
 
 	int opt = 1;
