@@ -35,7 +35,7 @@ def hello_msg(client, userdata, message):
                     time.sleep(0.2)
                     print("lcd write error, retrying...")
                     lcd_fail -= 1
-    elif msg == "Goodbye!"
+    elif msg == "Goodbye!":
         print("Received goodbye message from phone! Printing to LCD...")
         grovepi.digitalWrite(led, 0)
         lcd_fail = 5
