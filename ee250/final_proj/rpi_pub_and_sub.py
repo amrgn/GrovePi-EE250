@@ -22,6 +22,7 @@ def hello_msg(client, userdata, message):
     msg = str(message.payload,"utf-8")
     if(msg == "Hello!"):
         print("Received hello message from phone! Printing to LCD...")
+        lcd_fail = 5
         while lcd_fail > 0:
                 try:
                     grove_rgb_lcd.setText(msg)
