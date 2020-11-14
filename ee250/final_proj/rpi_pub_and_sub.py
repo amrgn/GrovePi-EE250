@@ -20,7 +20,7 @@ buzzer = 2
 
 def hello_msg(client, userdata, message):
     msg = str(message.payload,"utf-8")
-    if(msg == "Hello!"):
+    if msg == "Hello!":
         print("Received hello message from phone! Printing to LCD...")
         lcd_fail = 5
         while lcd_fail > 0:
@@ -36,14 +36,15 @@ def hello_msg(client, userdata, message):
         print("Invalid message")
 
 def motion_msg(client, userdata, message):
-    
-    if str(message.payload,"utf-8") == "Motion detected!":
+    msg = str(message.payload,"utf-8")
+    if msg== "Motion detected!":
         grovepi.digitalWrite(buzzer,1)
         time.sleep(0.5)
         grovepi.digitalWrite(buzzer,0)
 
     else:
         print("Invalid motion msg")
+        print(msg)
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
