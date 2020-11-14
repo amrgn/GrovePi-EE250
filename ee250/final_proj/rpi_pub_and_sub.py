@@ -23,13 +23,13 @@ def hello_msg(client, userdata, message):
     msg = str(message.payload,"utf-8")
     if msg == "Hello!":
         grovepi.digitalWrite(led, 1)
-        lcd.setRGB(50, 100, 100)
         print("Received hello message from phone! Printing to LCD...")
         grovepi
         lcd_fail = 5
         while lcd_fail > 0:
                 try:
                     grove_rgb_lcd.setText(msg)
+                    grove_rgb_lcd.setRGB(50, 100, 100)
                     lcd_fail = 0
                 except:
                     grove_rgb_lcd.textCommand(0x01)
@@ -43,6 +43,7 @@ def hello_msg(client, userdata, message):
         while lcd_fail > 0:
                 try:
                     grove_rgb_lcd.setText(msg)
+                    grove_rgb_lcd.setRGB(0, 0, 0)
                     lcd_fail = 0
                 except:
                     grove_rgb_lcd.textCommand(0x01)
@@ -102,8 +103,8 @@ if __name__ == '__main__':
                 client.publish(HOSTNAME + "button", "Button pressed!")
         except KeyboardInterrupt:
             # Gracefully shutdown on Ctrl-C
-            lcd.setText('')
-            lcd.setRGB(0, 0, 0)
+            grove_rgb_lcd.setText('')
+            grove_rgb_lcd.setRGB(0, 0, 0)
 
             # Turn buzzer and led off just in case
             grovepi.digitalWrite(buzzer, 0)
