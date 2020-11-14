@@ -23,6 +23,7 @@ def hello_msg(client, userdata, message):
     msg = str(message.payload,"utf-8")
     if msg == "Hello!":
         grovepi.digitalWrite(led, 1)
+        lcd.setRGB(50, 100, 100)
         print("Received hello message from phone! Printing to LCD...")
         grovepi
         lcd_fail = 5
@@ -87,17 +88,27 @@ if __name__ == '__main__':
     grovepi.pinMode(led, "OUTPUT")
 
     while True:
-        pressed = 0
-        for i in range(10):
-            try:
-                read_val = grovepi.digitalRead(button)
-                if read_val == 1:
-                    pressed = 1
-            except:
-                pass
-            time.sleep(0.1)
-        if pressed == 1:
-            client.publish(HOSTNAME + "button", "Button pressed!")
+        try:
+            pressed = 0
+            for i in range(10):
+                try:
+                    read_val = grovepi.digitalRead(button)
+                    if read_val == 1:
+                        pressed = 1
+                except:
+                    pass
+                time.sleep(0.1)
+            if pressed == 1:
+                client.publish(HOSTNAME + "button", "Button pressed!")
+        except KeyboardInterrupt:
+            # Gracefully shutdown on Ctrl-C
+            lcd.setText('')
+            lcd.setRGB(0, 0, 0)
 
+            # Turn buzzer and led off just in case
+            grovepi.digitalWrite(buzzer, 0)
+            grovepi.digitalWrite(led, 0)
+
+            break
 
 
