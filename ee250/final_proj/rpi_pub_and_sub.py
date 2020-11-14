@@ -17,11 +17,27 @@ import time
 HOSTNAME = "xm_pi/"
 button = 4
 buzzer = 2
+led    = 5
 
 def hello_msg(client, userdata, message):
     msg = str(message.payload,"utf-8")
     if msg == "Hello!":
+        grovepi.digitalWrite(led, 1)
         print("Received hello message from phone! Printing to LCD...")
+        grovepi
+        lcd_fail = 5
+        while lcd_fail > 0:
+                try:
+                    grove_rgb_lcd.setText(msg)
+                    lcd_fail = 0
+                except:
+                    grove_rgb_lcd.textCommand(0x01)
+                    time.sleep(0.2)
+                    print("lcd write error, retrying...")
+                    lcd_fail -= 1
+    elif msg == "Goodbye!"
+        print("Received goodbye message from phone! Printing to LCD...")
+        grovepi.digitalWrite(led, 0)
         lcd_fail = 5
         while lcd_fail > 0:
                 try:
@@ -50,9 +66,9 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
     #subscribe to topics of interest here
-    client.subscribe("xm_phone/hello")
+    client.subscribe("xm_phone/hello", qos = 2)
     client.message_callback_add("xm_phone/hello", hello_msg)
-    client.subscribe("xm_phone/motion")
+    client.subscribe("xm_phone/motion", qos = 2)
     client.message_callback_add("xm_phone/motion", motion_msg)
 
 #Default message callback. Please use custom callbacks.
@@ -68,6 +84,7 @@ if __name__ == '__main__':
 
     grovepi.pinMode(button,"INPUT")
     grovepi.pinMode(buzzer, "OUTPUT")
+    grovepi.pinMode(led, "OUTPUT")
 
     while True:
         pressed = 0
