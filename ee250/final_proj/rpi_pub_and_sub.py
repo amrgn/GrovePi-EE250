@@ -62,14 +62,13 @@ def motion_msg(client, userdata, message):
         print("Invalid motion msg")
         print(msg)
 
-def led_msg(client,userdata,message):
-    msg = str(message.payload,"utf-8")
-    if msg == "Recording!":
+def led_msg(client, userdata, message):
+    msg = float(str(message.payload,"utf-8"))
+    print(msg)
+    if msg > 0:
         grovepi.digitalWrite(led, 1)
-    elif msg == "Stopped recording!":
-        grovepi.digitalWrite(led, 0)
     else:
-        print("Invalid led message")
+        grovepi.digitalWrite(led, 0)
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
@@ -79,8 +78,8 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("xm_phone/hello", hello_msg)
     client.subscribe("xm_phone/motion", qos = 2)
     client.message_callback_add("xm_phone/motion", motion_msg)
-    client.subscribe("xm_phone/recording", qos = 2)
-    client.message_callback_add("xm_phone/recording", led_msg)
+    client.subscribe("xm_phone/light", qos = 2)
+    client.message_callback_add("xm_phone/light", led_msg)
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
