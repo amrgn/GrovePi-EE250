@@ -29,7 +29,7 @@ def disp_sound_data(client, userdata, message):
 
     cnt = find_num_max(data)
     print("Detected {} claps".format(cnt))
-    client.publish("xm_vm/num_claps", str(cnt,"utf-8"), qos = 2)
+    client.publish("xm_vm/num_claps", str(cnt), qos = 2)
 
 
 def find_num_max(data):
@@ -49,13 +49,6 @@ def find_num_max(data):
     for i in range(NUM_SAMPLES - 2):
         if dt2[i] < THRESHOLD and islocalmax[i] == 1:
             cnt += 1
-
-    plt.figure(figsize=(20,10))
-    plt.plot(dt2)
-    plt.xlabel("time")
-    plt.ylabel("dt2")
-    plt.title("Sound data")
-    plt.show()
     return cnt
 
 

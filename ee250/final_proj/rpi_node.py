@@ -130,7 +130,7 @@ if __name__ == '__main__':
     while True:
         try:
             client.publish(HOSTNAME + "poll", "request for light level", qos = 2)
-            time.sleep(0.2)
+            time.sleep(0.5)
 
         except KeyboardInterrupt:
             # Gracefully shutdown on Ctrl-C
