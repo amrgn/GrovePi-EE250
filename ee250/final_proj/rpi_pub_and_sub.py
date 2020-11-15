@@ -15,7 +15,6 @@ import paho.mqtt.client as mqtt
 import time
 
 HOSTNAME = "xm_pi/"
-button = 4
 buzzer = 2
 led    = 5
 
@@ -65,7 +64,7 @@ def motion_msg(client, userdata, message):
 def led_msg(client, userdata, message):
     msg = float(str(message.payload,"utf-8"))
     print(msg)
-    if msg > 0:
+    if msg < 30:
         grovepi.digitalWrite(led, 1)
     else:
         grovepi.digitalWrite(led, 0)
@@ -98,17 +97,9 @@ if __name__ == '__main__':
 
     while True:
         try:
-            pressed = 0
-            for i in range(10):
-                try:
-                    read_val = grovepi.digitalRead(button)
-                    if read_val == 1:
-                        pressed = 1
-                except:
-                    pass
-                time.sleep(0.1)
-            if pressed == 1:
-                client.publish(HOSTNAME + "button", "Button pressed!")
+            client.publish(HOSTNAME + "poll", "request for light level")
+            time.sleep(0.2)
+
         except KeyboardInterrupt:
             # Gracefully shutdown on Ctrl-C
             grove_rgb_lcd.setText('')
