@@ -32,12 +32,13 @@ sound_data = {
 
 for i in range(NUM_SAMPLES):
     sound_data["time"].append(i/SAMPLES_PER_SECOND)
+    sound_data["amplitude"].append(0)
 
 def get_sound(client, userdata, message):
     msg = str(message.payload,"utf-8")
     if msg == "get_sound":
         for i in range(NUM_SAMPLES):
-            sound_data["amplitude"].append(grovepi.analogRead(sound))
+            sound_data["amplitude"][i] = grovepi.analogRead(sound)
             time.sleep(1/SAMPLES_PER_SECOND)
         send_data = json.dumps(sound_data)
         client.publish(HOSTNAME + "sound_data", send_data)
