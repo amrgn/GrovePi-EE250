@@ -15,21 +15,24 @@ NUM_SAMPLES = NUM_SECONDS*SAMPLES_PER_SECOND
 
 THRESHOLD = -200
 
+visualize = "n"
+
 def disp_sound_data(client, userdata, message):
     msg = str(message.payload,"utf-8")
     data = json.loads(msg)
-    plt.figure(figsize=(20,10))
-    plt.plot(data["time"],data["amplitude"])
-    plt.xlabel("time")
-    plt.ylabel("amplitude")
-    plt.title("Sound data")
-    plt.show()
 
     #compute second time deriv (up to constant of proportionality)
 
     cnt = find_num_max(data)
     print("Detected {} claps".format(cnt))
     client.publish("xm_vm/num_claps", str(cnt), qos = 2)
+    if(visualize.lower() == "y"):
+        plt.figure(figsize=(20,10))
+        plt.plot(data["time"],data["amplitude"])
+        plt.xlabel("time")
+        plt.ylabel("amplitude")
+        plt.title("Sound data")
+        plt.show()
 
 
 def find_num_max(data):
@@ -62,6 +65,7 @@ def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 if __name__ == '__main__':
+    visualize = input("Visualize data? Y/y for yes\n")
     client = mqtt.Client()
     client.on_message = on_message
     client.on_connect = on_connect
