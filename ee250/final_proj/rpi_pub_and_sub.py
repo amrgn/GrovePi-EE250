@@ -26,17 +26,18 @@ SAMPLES_PER_SECOND = 20
 NUM_SAMPLES = NUM_SECONDS*SAMPLES_PER_SECOND
 
 sound_data = {
-    "time" : range(NUM_SAMPLES),       # each block represents 0.1 seconds giving 3 seconds of recording total
-    "amplitude" : range(NUM_SAMPLES)  
+    "time" : [],       # each block represents 0.1 seconds giving 3 seconds of recording total
+    "amplitude" : []  
 }
+
 for i in range(NUM_SAMPLES):
-    sound_data["time"][i] = i/SAMPLES_PER_SECOND
+    sound_data["time"].append(i/SAMPLES_PER_SECOND)
 
 def get_sound(client, userdata, message):
     msg = str(message.payload,"utf-8")
     if msg == "get_sound":
         for i in range(NUM_SAMPLES):
-            sound_data["amplitude"][i] = grovepi.analogRead(sound)
+            sound_data["amplitude"].append(grovepi.analogRead(sound))
             time.sleep(1/SAMPLES_PER_SECOND)
         send_data = json.dumps(sound_data)
         client.publish(HOSTNAME + "sound_data", send_data)
