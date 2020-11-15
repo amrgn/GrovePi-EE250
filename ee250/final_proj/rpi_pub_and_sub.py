@@ -29,7 +29,7 @@ sound_data = {
     "time" : range(NUM_SAMPLES),       # each block represents 0.1 seconds giving 3 seconds of recording total
     "amplitude" : range(NUM_SAMPLES)  
 }
-for i in range(NUM_SAMPLES)
+for i in range(NUM_SAMPLES):
     time[i] = i/SAMPLES_PER_SECOND
 
 def get_sound(client, userdata, message):
