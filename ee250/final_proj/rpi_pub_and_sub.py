@@ -30,7 +30,7 @@ sound_data = {
     "amplitude" : range(NUM_SAMPLES)  
 }
 for i in range(NUM_SAMPLES):
-    time[i] = i/SAMPLES_PER_SECOND
+    sound_data["time"][i] = i/SAMPLES_PER_SECOND
 
 def get_sound(client, userdata, message):
     msg = str(message.payload,"utf-8")
