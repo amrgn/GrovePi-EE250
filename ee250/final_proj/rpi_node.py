@@ -1,7 +1,3 @@
-"""EE 250L Lab 04 Starter Code
-
-Run rpi_pub_and_sub.py on your Raspberry Pi."""
-
 import sys
 
 sys.path.append('../../Software/Python/')
