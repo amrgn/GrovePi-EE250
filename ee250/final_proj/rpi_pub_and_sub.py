@@ -91,7 +91,6 @@ if __name__ == '__main__':
     client.connect(host="broker.emqx.io", port=1883, keepalive=60)
     client.loop_start()
 
-    grovepi.pinMode(button,"INPUT")
     grovepi.pinMode(buzzer, "OUTPUT")
     grovepi.pinMode(led, "OUTPUT")
 
